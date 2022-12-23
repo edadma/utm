@@ -19,3 +19,15 @@ def build(s: scala.io.Source): Unit =
     case haltRegex(h) => halt = h
     case stateRegex(s, t, p1, p2, m, n) => println((s, t, p1, p2, m, n))
   }
+
+trait Print
+case object NoPrint extends Print
+case object Erase extends Print
+case class SymbolPrint(sym: String) extends Print
+
+enum Motion:
+  case None, Left, Right
+
+case class Case(tape: String, print: Print, motion: Motion, state: String)
+
+case class UTM(blank: String, start: String, halt: String, actions: Map[String, List[Case]])
