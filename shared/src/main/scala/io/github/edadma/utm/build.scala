@@ -5,7 +5,7 @@ import scala.util.Using
 private lazy val blankRegex = """blank:\s*([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
 private val startRegex = """start:\s*([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
 private val haltRegex = """halt:\s*([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
-private val stateRegex = """\s*([a-zA-Z0-9_.$-]+)\s+([a-zA-Z0-9_.$-]+)\s+(?:(e|n)|p([a-zA-Z0-9_.$-]+))\s+([lrn])\s*(?://.*)?""".r
+private val stateRegex = """\s*([a-zA-Z0-9_.$-]+)\s+([a-zA-Z0-9_.$-]+)\s+(?:(e|n)|p([a-zA-Z0-9_.$-]+))\s+([lrn])\s+([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
 private val emptyRegex = """\s*(?://.*)?""".r
 
 def build(s: scala.io.Source): Unit =
@@ -17,5 +17,5 @@ def build(s: scala.io.Source): Unit =
     case blankRegex(b) => blank = b
     case startRegex(s) => start = s
     case haltRegex(h) => halt = h
-    case stateRegex(s, t, p1, p2) => println((s, t, p1, p2))
+    case stateRegex(s, t, p1, p2, m, n) => println((s, t, p1, p2, m, n))
   }
