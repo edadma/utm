@@ -3,10 +3,10 @@ ThisBuild / versionScheme := Some("semver-spec")
 
 publish / skip := true
 
-lazy val cross_template = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+lazy val utm = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
-    name := "cross-template",
+    name := "utm",
     version := "0.0.1",
     scalaVersion := "3.2.1",
     scalacOptions ++=
