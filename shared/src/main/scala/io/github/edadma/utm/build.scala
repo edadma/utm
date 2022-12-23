@@ -10,7 +10,7 @@ private val haltRegex = """halt:\s*([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
 private val stateRegex = """\s*([a-zA-Z0-9_.$-]+)\s+([a-zA-Z0-9_.$-]+)\s+(?:(e|n)|p([a-zA-Z0-9_.$-]+))\s+([lrn])\s+([a-zA-Z0-9_.$-]+)\s*(?://.*)?""".r
 private val emptyRegex = """\s*(?://.*)?""".r
 
-def build(s: scala.io.Source): Unit =
+def build(s: scala.io.Source): TM =
   var blank = "-"
   var start = ""
   var halt = "h"
@@ -20,7 +20,22 @@ def build(s: scala.io.Source): Unit =
     case blankRegex(b) => blank = b
     case startRegex(s) => start = s
     case haltRegex(h) => halt = h
-    case stateRegex(s, t, p1, p2, m, n) => println((s, t, p1, p2, m, n))
+    case stateRegex(s, t, p1, p2, m, n) =>
+      val motion =
+        m match
+          case "l" => Motion.Left
+          case "r" => Motion.Right
+          case "n" => Motion.None
+      val print =
+        (p1, p2) match
+          case ("e", _) => Erase
+          case ("n", _) => NoPrint
+          case (null, s) => SymbolPrint(s)
+      val c = Case(t, print, motion, n)
+
+      actions get s match
+        case None => actions(s) = ListBuffer(c)
+        case Some(l) => l += c
   }
 
   TM(blank, start, halt, actions.view.mapValues(_.toList).toMap)
