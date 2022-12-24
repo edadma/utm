@@ -14,3 +14,4 @@ package io.github.edadma.utm
   val m = build(scala.io.Source.fromString(input))
 
   println(m)
+  println(execute(m))
