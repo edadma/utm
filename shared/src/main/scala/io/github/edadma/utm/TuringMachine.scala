@@ -42,6 +42,7 @@ class TuringMachine(s: scala.io.Source):
         actions get s match
           case None    => actions(s) = ListBuffer(c)
           case Some(l) => l += c
+      case emptyRegex =>
     }
 
     (blank, start, halt, actions.view.mapValues(_.toList).toMap)
