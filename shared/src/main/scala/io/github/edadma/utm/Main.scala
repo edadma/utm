@@ -11,7 +11,7 @@ package io.github.edadma.utm
       |q3 - p1 r q4
       |q4 - e r h
       |""".trim.stripMargin
-  val m = build(scala.io.Source.fromString(input))
+  val m = new TuringMachine(scala.io.Source.fromString(input))
 
   println(m)
-  println(execute(m))
+  println(m.run)
