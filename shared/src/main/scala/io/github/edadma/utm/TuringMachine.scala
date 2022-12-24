@@ -52,16 +52,6 @@ class TuringMachine(s: scala.io.Source):
     var pos = 0
     var state = start
 
-    def left(): Unit =
-      if pos == 0 then tape.insert(0, blank)
-      else pos -= 1
-
-    def right(): Unit =
-      if pos == tape.length then tape.append(blank)
-      pos += 1
-
-    def erase(): Unit = print(blank)
-
     def print(sym: String): Unit =
       if pos == tape.length then tape.append(sym)
       else tape(pos) = sym
@@ -74,13 +64,17 @@ class TuringMachine(s: scala.io.Source):
       actions(state).find(_.tape == read) match
         case Some(c) =>
           c.print match
-            case Erase            => erase()
+            case Erase            => print(blank)
             case NoPrint          =>
             case SymbolPrint(sym) => print(sym)
           c.motion match
-            case Motion.None  =>
-            case Motion.Left  => left()
-            case Motion.Right => right()
+            case Motion.None =>
+            case Motion.Left =>
+              if pos == 0 then tape.insert(0, blank)
+              else pos -= 1
+            case Motion.Right =>
+              if pos == tape.length then tape.append(blank)
+              pos += 1
 
           state = c.state
         case None => sys.error(s"no matching case for state `$state` and tape position $pos with symbol `${tape(pos)}`")
