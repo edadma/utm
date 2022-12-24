@@ -84,6 +84,10 @@ class TuringMachine(s: scala.io.Source):
         case None => sys.error(s"no matching case for state `$state` and tape position $pos with symbol `${tape(pos)}`")
 
     tape.dropWhileInPlace(_ == blank).reverse.dropWhileInPlace(_ == blank).reverse.toList
+  end run
+
+  override def toString: String = s"TuringMachine($actions)"
+end TuringMachine
 
 trait Print
 case object NoPrint extends Print
