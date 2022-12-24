@@ -25,6 +25,8 @@ class TuringMachine(s: scala.io.Source):
       case startRegex(s) => start = s
       case haltRegex(h)  => halt = h
       case stateRegex(s, t, p1, p2, m, n) =>
+        if start == "" then start = s
+
         val motion =
           m match
             case "l" => Motion.Left
